@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4WD RC Car | Project Guide</title>
+<style>
+:root{--bg:#08111f;--panel:#101e32;--panel2:#142740;--cyan:#43d9ff;--blue:#4c83ff;--text:#edf5ff;--muted:#a9bbd1;--line:#29415f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0%,#12365a 0,transparent 35%),var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.65}
+header{padding:34px 7% 25px;border-bottom:1px solid var(--line);background:#08111fdc}
+.kicker{color:var(--cyan);letter-spacing:3px;font-size:.78rem;font-weight:bold}
+h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.08;margin:12px 0}
+header p{max-width:760px;color:var(--muted);font-size:1.08rem}
+nav{position:sticky;top:0;z-index:5;display:flex;gap:8px;overflow-x:auto;padding:12px 7%;background:#0b1728f2;border-bottom:1px solid var(--line)}
+nav button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:9px;cursor:pointer}
+nav button.active,nav button:hover{background:linear-gradient(120deg,#12618b,#354fbb);border-color:var(--cyan)}
+main{max-width:1100px;margin:30px auto;padding:0 22px 60px}
+.page{display:none;animation:fade .25s ease}.page.active{display:block}
+@keyframes fade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+h2{font-size:2rem;margin:0 0 8px}h3{color:var(--cyan);margin-top:24px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:850px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin:22px 0}
+.card{background:linear-gradient(145deg,var(--panel),#0c192a);border:1px solid var(--line);border-radius:15px;padding:18px}
+.card strong{color:var(--cyan);display:block;margin-bottom:5px}
+.callout{border-left:4px solid var(--cyan);background:#10243a;padding:15px 18px;border-radius:8px;margin:20px 0;color:#dcecff}
+ul,ol{padding-left:23px}li{margin:7px 0}table{width:100%;border-collapse:collapse;margin:18px 0;background:var(--panel);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--cyan);background:var(--panel2)}
+.pill{display:inline-block;padding:4px 10px;border:1px solid #31799b;border-radius:99px;color:var(--cyan);font-size:.82rem;margin:4px 5px 4px 0}
+.controls{display:flex;justify-content:space-between;gap:10px;margin-top:35px}
+.controls button{background:#174f77;color:white;border:1px solid #368db5;padding:11px 18px;border-radius:9px;cursor:pointer}
+.controls button:disabled{opacity:.35;cursor:not-allowed}
+.diagram{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:22px 0}
+.node{background:#142b46;border:1px solid var(--cyan);border-radius:10px;padding:13px;text-align:center;min-width:130px}
+.arrow{color:var(--cyan);font-size:1.4rem}
+footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:25px}
+.small{font-size:.9rem;color:var(--muted)}
+@media(max-width:600px){header{padding:25px 6%}nav{padding:10px 5%}main{padding:0 16px 45px}h2{font-size:1.6rem}th,td{padding:9px;font-size:.9rem}}
+</style>
+</head>
+<body>
+<header>
+ <div class="kicker">STEM PROJECT • ENGINEERING • ROBOTICS</div>
+ <h1>4WD Remote-Controlled Car</h1>
+ <p>A 10-page interactive guide to understanding the design, components, electronics, working principle, assembly, testing and safety of a four-wheel-drive RC car.</p>
+ <span class="pill">4-wheel drive</span><span class="pill">FlySky FS-i6 control system</span><span class="pill">12V DC gear motors</span>
+</header>
+<nav id="nav"></nav>
+<main>
+<section class="page active" id="p1">
+ <h2>01 — Introduction</h2><p class="lead">An RC car (remote-controlled car) is a vehicle that is operated from a distance using a handheld transmitter. Our model uses four powered wheels, so it is a 4WD vehicle.</p>
+ <div class="grid">
+  <div class="card"><strong>What does 4WD mean?</strong>All four wheels receive driving power from the motors. This can improve traction on suitable surfaces.</div>
+  <div class="card"><strong>What is remote control?</strong>A transmitter sends commands to a receiver installed in the car.</div>
+  <div class="card"><strong>Project goal</strong>Build a controllable model that can move forward, reverse, turn left and turn right.</div>
+ </div>
+ <h3>Where are RC cars useful?</h3><p>They are used for learning robotics, exploring radio control, testing vehicle designs, recreation and demonstrating basic engineering concepts.</p>
+ <div class="callout">The car is a small educational model. Its speed, traction and running time depend on the motors, battery, tyres, gearing, surface and total weight.</div>
+</section>
+<section class="page" id="p2">
+ <h2>02 — Main Components</h2><p class="lead">Each component has a specific job. The mechanical parts make the vehicle move, while the electronic parts receive commands and control motor power.</p>
+ <table><tr><th>Component</th><th>Purpose</th></tr>
+ <tr><td>4 × 12V DC gear motors</td><td>Provide rotation to the four wheels. Confirm each motor's rated voltage and current.</td></tr>
+ <tr><td>FlySky FS-i6 transmitter</td><td>Handheld controller used by the operator.</td></tr>
+ <tr><td>Compatible receiver</td><td>Receives radio commands and sends control signals to the electronics.</td></tr>
+ <tr><td>BTS7960 motor driver module(s)</td><td>Switches higher motor current in response to low-power control signals.</td></tr>
+ <tr><td>12V LiPo battery</td><td>Supplies electrical energy to the drive system.</td></tr>
+ <tr><td>Chassis, wheels and adapters</td><td>Support the components and transfer motor rotation to the ground.</td></tr>
+ <tr><td>Wires, connectors and clamps</td><td>Make secure electrical and mechanical connections.</td></tr></table>
+ <div class="callout"><b>Important design check:</b> A BTS7960 module controls one motor channel. A common left/right drive arrangement uses two suitable driver modules, one for the left motor pair and one for the right pair. Check the driver's genuine current rating and the motors' stall current before choosing the final arrangement.</div>
+</section>
+<section class="page" id="p3">
+ <h2>03 — How the RC System Works</h2><p class="lead">The operator moves the sticks on the transmitter. The receiver interprets the radio signal and provides control outputs for the motor-control electronics.</p>
+ <div class="diagram">
+  <div class="node">Handheld<br>transmitter</div><div class="arrow">→</div><div class="node">Radio<br>receiver</div><div class="arrow">→</div><div class="node">Control<br>electronics</div><div class="arrow">→</div><div class="node">Motor<br>drivers</div><div class="arrow">→</div><div class="node">Four DC<br>motors</div>
+ </div>
+ <h3>Movement commands</h3><ul>
+  <li><b>Forward:</b> left and right wheels rotate to drive the car ahead.</li>
+  <li><b>Reverse:</b> motor direction is reversed.</li>
+  <li><b>Left turn:</b> the left and right sides are driven at different speeds or in opposite directions.</li>
+  <li><b>Right turn:</b> the speed difference is reversed.</li>
+  <li><b>Stop:</b> the motor drivers stop supplying drive power.</li>
+ </ul>
+ <p class="small">The exact receiver output type and control interface must match the motor-control circuit. A receiver output should not be connected directly to a motor.</p>
+</section>
+<section class="page" id="p4">
+ <h2>04 — Motor and Drive System</h2><p class="lead">A DC gear motor combines an electric motor with a gearbox. The gearbox reduces speed and increases available turning force compared with the motor shaft alone.</p>
+ <h3>Why use four motors?</h3><ul><li>Each wheel can have its own drive motor.</li><li>Power can be arranged as a left-side pair and a right-side pair.</li><li>Electronic control of the two sides allows skid steering.</li></ul>
+ <h3>Left/right drive concept</h3><div class="grid">
+  <div class="card"><strong>Left side</strong>Front-left motor + rear-left motor are controlled together.</div>
+  <div class="card"><strong>Right side</strong>Front-right motor + rear-right motor are controlled together.</div>
+ </div>
+ <div class="callout">Before connecting two motors in parallel to one driver, check that the combined running current and starting/stall current stay within the driver's and wiring's safe limits. Motors on the same side should have matching specifications.</div>
+ <h3>Wheel direction</h3><p>Because motors may be mounted as mirror images, the polarity needed for forward movement may differ between sides. Test with the wheels lifted safely and correct the wiring or control direction as required.</p>
+</section>
+<section class="page" id="p5">
+ <h2>05 — Battery and Power Supply</h2><p class="lead">The battery supplies the energy needed by the motors and control electronics. Correct voltage, current capability and protection are essential.</p>
+ <h3>Battery checks</h3><ul>
+  <li>Confirm the battery's cell count and fully charged voltage—not just its nominal label.</li>
+  <li>Confirm that the motors and motor drivers are suitable for the battery voltage.</li>
+  <li>Use a suitable LiPo balance charger and follow the battery manufacturer's instructions.</li>
+  <li>Use a correctly rated fuse and wiring appropriate for the expected current.</li>
+  <li>Provide a suitable regulated supply for the receiver if its required voltage differs from the battery voltage.</li>
+ </ul>
+ <div class="callout">Never connect a LiPo battery directly to an unknown circuit. Do not short its terminals, puncture it, leave it charging unattended or use a swollen, damaged or unusually hot battery. Ask a knowledgeable adult to check the power circuit before testing.</div>
+ <h3>Power layout</h3><div class="diagram"><div class="node">12V LiPo<br>battery</div><div class="arrow">→</div><div class="node">Fuse / main<br>switch</div><div class="arrow">→</div><div class="node">Motor<br>drivers</div><div class="arrow">→</div><div class="node">Motor<br>pairs</div></div>
+ <p class="small">The receiver/control supply should be designed separately as required by the receiver specifications, with a common signal reference where the circuit design requires it.</p>
+</section>
+<section class="page" id="p6">
+ <h2>06 — Chassis and Mechanical Design</h2><p class="lead">The chassis is the frame that holds the motors, battery, receiver, motor drivers and other parts. It should be rigid enough to support the vehicle without being unnecessarily heavy.</p>
+ <div class="grid">
+  <div class="card"><strong>Base plate</strong>Supports the motors and main electronics. Keep it flat and strong.</div>
+  <div class="card"><strong>Motor mounts</strong>Hold each motor firmly and keep the shafts aligned with the wheel adapters.</div>
+  <div class="card"><strong>Wheels</strong>Provide grip. Check that all wheels rotate freely without rubbing the chassis.</div>
+  <div class="card"><strong>Top cover / guards</strong>Help protect electronics and reduce accidental contact with moving parts.</div>
+ </div>
+ <h3>Good layout practices</h3><ul><li>Place the battery low and secure it firmly.</li><li>Keep wires away from wheels, shafts and other moving parts.</li><li>Leave room for airflow around motor drivers.</li><li>Use clamps and fasteners that cannot loosen during movement.</li><li>Make the battery and main switch accessible.</li></ul>
+</section>
+<section class="page" id="p7">
+ <h2>07 — Assembly Process</h2><p class="lead">Build in stages. Check each stage before moving to the next one.</p>
+ <ol>
+  <li><b>Prepare the chassis:</b> mark and make mounting points for the four motors.</li>
+  <li><b>Mount the motors:</b> secure all four motors and check alignment.</li>
+  <li><b>Fit wheels:</b> attach wheel adapters and make sure each wheel is secure.</li>
+  <li><b>Mount electronics:</b> fix the receiver and motor driver modules where they are protected and ventilated.</li>
+  <li><b>Secure the battery:</b> use a proper holder or strap so it cannot slide.</li>
+  <li><b>Route the wiring:</b> separate signal wires from high-current motor wiring where practical; protect exposed connections.</li>
+  <li><b>Inspect:</b> check polarity, loose strands, shorts and mechanical interference before connecting the battery.</li>
+  <li><b>Test safely:</b> lift the wheels clear of the floor for the first motor-direction test.</li>
+ </ol>
+ <div class="callout">Do not hold the wheels while the motors are powered. Keep hands, hair and loose clothing away from rotating parts.</div>
+</section>
+<section class="page" id="p8">
+ <h2>08 — Control, Wiring and Testing</h2><p class="lead">The receiver's control signals must be translated into suitable motor-driver inputs. The exact wiring depends on the receiver output mode and the control circuit being used.</p>
+ <h3>System-level connection plan</h3>
+ <table><tr><th>Connection</th><th>What to verify</th></tr>
+ <tr><td>Transmitter ↔ receiver</td><td>Correct model binding, compatible frequency/system and working control channels.</td></tr>
+ <tr><td>Receiver → control electronics</td><td>Signal type, channel mapping, signal ground and safe input voltage.</td></tr>
+ <tr><td>Control electronics → BTS7960</td><td>Correct logic signals and driver-specific pin requirements.</td></tr>
+ <tr><td>Battery → drivers</td><td>Correct polarity, fuse, wire gauge and voltage rating.</td></tr>
+ <tr><td>Drivers → motors</td><td>Correct motor grouping and direction; current within ratings.</td></tr></table>
+ <h3>First test checklist</h3><ul><li>Wheels lifted and vehicle secured.</li><li>Transmitter and receiver bound and switched on in the correct order.</li><li>Throttle at neutral before enabling motor power.</li><li>Test one side at a time at low power.</li><li>Confirm forward, reverse and steering directions.</li><li>Stop immediately if wiring heats up, a motor stalls or a driver indicates a fault.</li></ul>
+ <div class="callout">This guide is a system overview, not a pin-by-pin wiring diagram. Confirm the exact receiver model, driver board version and motor current before making final connections.</div>
+</section>
+<section class="page" id="p9">
+ <h2>09 — Troubleshooting</h2><p class="lead">Use a step-by-step approach. Disconnect the battery before inspecting or changing wiring.</p>
+ <table><tr><th>Problem</th><th>Possible checks</th></tr>
+ <tr><td>Car does not respond</td><td>Check transmitter battery, receiver power, binding and channel settings.</td></tr>
+ <tr><td>Only one side moves</td><td>Inspect that side's driver, motor connections, signal wiring and power path.</td></tr>
+ <tr><td>Car turns the wrong way</td><td>Check motor orientation, polarity and steering/throttle channel mapping.</td></tr>
+ <tr><td>Motors stop under load</td><td>Check for jammed wheels, excessive weight, low battery voltage or current limiting.</td></tr>
+ <tr><td>Driver becomes hot</td><td>Stop testing; check motor stall current, cooling, wiring and driver suitability.</td></tr>
+ <tr><td>Car moves at neutral</td><td>Recheck transmitter trims, failsafe settings and control signal calibration.</td></tr></table>
+ <h3>Keep a test log</h3><p>Record the battery voltage, surface, test duration, motor/driver temperature observations and any changes made. Change one thing at a time so the cause of a problem is easier to identify.</p>
+</section>
+<section class="page" id="p10">
+ <h2>10 — Applications, Learning and Conclusion</h2><p class="lead">An RC car is more than a moving model. It demonstrates how mechanical engineering, electronics, radio communication and problem-solving work together.</p>
+ <div class="grid">
+  <div class="card"><strong>Engineering</strong>Chassis design, weight distribution, wheel alignment and traction.</div>
+  <div class="card"><strong>Electronics</strong>Power supplies, motor drivers, signal wiring and electrical protection.</div>
+  <div class="card"><strong>Programming & control</strong>Interpreting commands, mixing steering and throttle, and failsafe behaviour.</div>
+  <div class="card"><strong>Testing</strong>Measuring performance, finding faults and improving reliability.</div>
+ </div>
+ <h3>Possible future improvements</h3><ul><li>Add headlights and brake lights.</li><li>Add a low-battery warning.</li><li>Use a speed controller with suitable protection and telemetry.</li><li>Explore camera-based driving only with safe, supervised operation.</li><li>Compare performance on different safe surfaces.</li></ul>
+ <div class="callout"><b>Conclusion:</b> The 4WD RC car shows how a radio transmitter, receiver, motor drivers, battery, motors and chassis combine to create a remotely operated vehicle. Careful component matching, safe wiring and systematic testing are the keys to a reliable build.</div>
+ <p class="small">Educational project guide. Always follow the manuals for the exact hardware versions used in your build.</p>
+</section>
+<div class="controls"><button id="prev" onclick="move(-1)">← Previous</button><span id="counter" class="small">Page 1 of 10</span><button id="next" onclick="move(1)">Next →</button></div>
+</main>
+<footer>4WD RC Car Project Guide • Learn • Build • Test • Improve</footer>
+<script>
+const titles=["Introduction","Components","How It Works","Motor System","Battery & Power","Chassis Design","Assembly","Wiring & Testing","Troubleshooting","Conclusion"];
+const nav=document.getElementById('nav');let current=0;
+titles.forEach((t,i)=>{const b=document.createElement('button');b.textContent=(i+1)+'. '+t;b.onclick=()=>show(i);nav.appendChild(b)});
+function show(i){current=Math.max(0,Math.min(9,i));document.querySelectorAll('.page').forEach((p,j)=>p.classList.toggle('active',j===current));[...nav.children].forEach((b,j)=>b.classList.toggle('active',j===current));document.getElementById('counter').textContent=`Page ${current+1} of 10`;document.getElementById('prev').disabled=current===0;document.getElementById('next').disabled=current===9;window.scrollTo({top:0,behavior:'smooth'});}
+function move(d){show(current+d)}show(0);
+</script>
+</body></html>
